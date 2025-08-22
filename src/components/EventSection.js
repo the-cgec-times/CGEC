@@ -22,6 +22,14 @@ const EventsSection = () => {
         description:
           "TECHNOVISTA 2025 is an exciting 3-day online competition, running from  January 29 to January 31, 2025, designed to  challenge and inspire tech enthusiasts.",
       },
+      {
+        id: 5,
+        name: "EUREKA 2K25",
+        newsUrl:
+          "https://satya-dr.github.io/CGEC-TIMES/mainWeb/comingSoon/index.html",
+        description:
+          " EUREKA!, the ultimate Entrepreneurship Competition designed to empower student innovators and future business leaders.",
+      },
     ],
     upcoming: [
       {
