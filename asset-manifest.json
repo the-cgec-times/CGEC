@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/CGEC/static/css/main.e06fa9a1.css",
-    "main.js": "/CGEC/static/js/main.953ce1a0.js",
+    "main.css": "/CGEC/static/css/main.633ab07f.css",
+    "main.js": "/CGEC/static/js/main.3440ee60.js",
     "static/js/453.02123d28.chunk.js": "/CGEC/static/js/453.02123d28.chunk.js",
     "static/media/AYAN ROY.jpg": "/CGEC/static/media/AYAN ROY.bcad8e00fe8b46d266c2.jpg",
     "static/media/HDR.jpg": "/CGEC/static/media/HDR.4fdc50b8edf658abfba0.jpg",
@@ -78,12 +78,12 @@
     "static/media/cgectimes.png": "/CGEC/static/media/cgectimes.df502f2e843281b9b745.png",
     "static/media/clgLogo.png": "/CGEC/static/media/clgLogo.94a2e46c11315d67611c.png",
     "index.html": "/CGEC/index.html",
-    "main.e06fa9a1.css.map": "/CGEC/static/css/main.e06fa9a1.css.map",
-    "main.953ce1a0.js.map": "/CGEC/static/js/main.953ce1a0.js.map",
+    "main.633ab07f.css.map": "/CGEC/static/css/main.633ab07f.css.map",
+    "main.3440ee60.js.map": "/CGEC/static/js/main.3440ee60.js.map",
     "453.02123d28.chunk.js.map": "/CGEC/static/js/453.02123d28.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.e06fa9a1.css",
-    "static/js/main.953ce1a0.js"
+    "static/css/main.633ab07f.css",
+    "static/js/main.3440ee60.js"
   ]
 }
