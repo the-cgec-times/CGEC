@@ -9,6 +9,8 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+
+
 .news-header {
   margin-bottom: 30px;
   text-align: center;
@@ -212,6 +214,104 @@
   color: white;
 }
 
+.newspaper-slider-container {
+  padding: 0 15px;
+  margin-bottom: 30px;
+}
+
+.download-card {
+  background: linear-gradient(135deg, #0066cc, #003dcc);
+  border-radius: 12px;
+  padding: 10px 50px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.newspaper-download {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 1.2rem;
+  margin: 0;
+  gap: 10px;
+}
+
+.download-text {
+  text-align: center;
+  font-weight: 500;
+}
+
+.highlight {
+  font-weight: 700;
+  color: #ffeb3b;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.download-icon {
+  font-size: 1.5rem;
+}
+
+.download-link {
+  background-color: #ff0090;
+  color: rgb(255, 255, 255);
+  padding: 10px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.download-link:hover {
+  background-color: #e00080;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive adjustments */
+@media (min-width: 576px) {
+  .newspaper-download {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+  }
+}
+
+@media (min-width: 768px) {
+  .newspaper-download {
+    font-size: 1.4rem;
+  }
+  
+  .download-link {
+    padding: 12px 25px;
+  }
+}
+
+@media (min-width: 992px) {
+  .newspaper-download {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .newspaper-download {
+    font-size: 1rem;
+  }
+  
+  .download-link {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+  
+  .download-icon {
+    font-size: 1.2rem;
+  }
+}
+
 
 
 /* Responsive adjustments */
@@ -342,3 +442,4 @@
     font-size: 14px;
   }
 }
+

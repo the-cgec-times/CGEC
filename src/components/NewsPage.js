@@ -1,11 +1,34 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./NewsPage.css";
 
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Navigation, Pagination,Autoplay} from "swiper/modules";
+
+const news_interval= "jul 2025 to Aug 2025"
+
+const importantLinks = [
+  { id: 1,  file: "/news/sem3.pdf" },
+  { id: 2, file: "/news/sem3.pdf" },
+  { id: 3, file: "/news/sem3.pdf" },
+];
+
 const NewsPage = () => {
   const [activeCategory, setActiveCategory] = useState("All");
   const categoryRefs = useRef({});
   const [visibleCategory, setVisibleCategory] = useState("All");
-  
+
+  const handleDownloadNewspaper = (file, label) => {
+    const link = document.createElement("a");
+    link.href = file;
+    link.download = `${news_interval}.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const newsItems = [
     {
       id: 1,
@@ -603,11 +626,13 @@ const NewsPage = () => {
       image: require("./NewsPhotos/march/Rhymes.jpg"),
     },
   ];
-  const categories = ["All", ...new Set(newsItems.map(item => item.category))];
 
-  const filteredNews = activeCategory === "All" 
-    ? newsItems 
-    : newsItems.filter(item => item.category === activeCategory);
+  const categories = ["All", ...new Set(newsItems.map((item) => item.category))];
+
+  const filteredNews =
+    activeCategory === "All"
+      ? newsItems
+      : newsItems.filter((item) => item.category === activeCategory);
 
   const newsByCategory = newsItems.reduce((acc, item) => {
     if (!acc[item.category]) {
@@ -619,14 +644,14 @@ const NewsPage = () => {
 
   const scrollToCategory = (category) => {
     if (category === "All") {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
-    
+
     setTimeout(() => {
       const element = document.getElementById(`category-${category}`);
       if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+        element.scrollIntoView({ behavior: "smooth" });
       }
     }, 100);
   };
@@ -636,20 +661,20 @@ const NewsPage = () => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setVisibleCategory(entry.target.getAttribute('data-category'));
+            setVisibleCategory(entry.target.getAttribute("data-category"));
           }
         });
       },
-      { threshold: 0.5, rootMargin: '-100px 0px -80% 0px' }
+      { threshold: 0.5, rootMargin: "-100px 0px -80% 0px" }
     );
-    Object.keys(categoryRefs.current).forEach(category => {
+    Object.keys(categoryRefs.current).forEach((category) => {
       if (categoryRefs.current[category]) {
         observer.observe(categoryRefs.current[category]);
       }
     });
 
     return () => {
-      Object.keys(categoryRefs.current).forEach(category => {
+      Object.keys(categoryRefs.current).forEach((category) => {
         if (categoryRefs.current[category]) {
           observer.unobserve(categoryRefs.current[category]);
         }
@@ -659,18 +684,55 @@ const NewsPage = () => {
 
   return (
     <>
+<div className="newspaper-slider-container">
+  <Swiper
+    modules={[Navigation, Pagination, Autoplay]}
+    spaceBetween={20}
+    slidesPerView={1}
+    pagination={{ clickable: true }}
+    autoplay={{ delay: 3000, disableOnInteraction: false }}
+    breakpoints={{
+      640: { slidesPerView: 1 },
+      1024: { slidesPerView: 1 },
+    }}
+  >
+    {importantLinks.map((paper) => (
+      <SwiperSlide key={paper.id}>
+        <div className="download-card">
+          <h3 className="newspaper-download">
+            <span className="download-text">
+              Click here to download <span className="highlight">{news_interval}</span> Newspaper
+            </span>
+            <span className="download-icon">👉</span>
+            <a 
+              href="#" 
+              onClick={(e) => {
+                e.preventDefault();
+                handleDownloadNewspaper();
+              }} 
+              className="download-link"
+            >
+              Click here
+            </a>
+          </h3>
+        </div>
+      </SwiperSlide>
+    ))}
+  </Swiper>
+</div>
+
       <div className="news-container">
         <div className="news-header">
-          <h2 className="section-title">NEWS CATAGORIES</h2>
+          <h2 className="section-title">NEWS CATEGORIES</h2>
         </div>
 
-        
-
         <div className="category-tabs mb-4">
-          {categories.map(category => (
+          {categories.map((category) => (
             <button
               key={category}
-              className={`tab-button ${activeCategory === category ? 'active' : ''}`}
+              className={`tab-button ${
+                activeCategory === category ? "active" : ""
+              }`}
               onClick={() => {
                 setActiveCategory(category);
                 scrollToCategory(category);
@@ -681,7 +743,11 @@ const NewsPage = () => {
           ))}
         </div>
 
-        <div className={`sticky-category-header ${visibleCategory !== "All" ? 'visible' : ''}`}>
+        <div
+          className={`sticky-category-header ${
+            visibleCategory !== "All" ? "visible" : ""
+          }`}
+        >
           <div className="container">
             <span className="current-category">{visibleCategory}</span>
           </div>
@@ -689,11 +755,11 @@ const NewsPage = () => {
         {activeCategory === "All" ? (
           <div className="news-by-category">
             {Object.entries(newsByCategory).map(([category, items]) => (
-              <div 
-                key={category} 
-                id={`category-${category}`} 
-                data-category={category} 
-                ref={el => categoryRefs.current[category] = el}
+              <div
+                key={category}
+                id={`category-${category}`}
+                data-category={category}
+                ref={(el) => (categoryRefs.current[category] = el)}
               >
                 <h3 className="category-heading">{category}</h3>
                 <div className="row">
@@ -755,9 +821,7 @@ const NewsCard = ({ item }) => {
           )}
         </h3>
         {!item.content || item.content.trim() === "" ? (
-          <p className="card-content text-muted">
-            No Content Available
-          </p>
+          <p className="card-content text-muted">No Content Available</p>
         ) : (
           <p className="card-content">
             {item.content.slice(0, 60)}
