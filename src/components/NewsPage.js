@@ -708,7 +708,7 @@ const NewsPage = () => {
               href="#" 
               onClick={(e) => {
                 e.preventDefault();
-                handleDownloadNewspaper();
+                handleDownloadNewspaper(paper.file, news_interval);
               }} 
               className="download-link"
             >
