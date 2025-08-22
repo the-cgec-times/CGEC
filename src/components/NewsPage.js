@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./NewsPage.css";
 
 const NewsPage = () => {
+  const [activeCategory, setActiveCategory] = useState("All");
+  const categoryRefs = useRef({});
+  const [visibleCategory, setVisibleCategory] = useState("All");
+  
   const newsItems = [
     {
       id: 1,
       title: "ESPERANZA 2K25 ",
       date: "BY cgec times 21th to 25th April",
-      category: "CGEC TIMES",
+      category: "ESPERANZA 2K25",
       content:
         "The countdown begins! Get ready to unleash the excitement at ESPERANZA 2K25 – where passion meets celebration! 🔥✨ Join us from April 21st -25th  and be part of the biggest fest of the year! 🚀💃 #Esperanza2K25 ",
       newsUrl:
@@ -599,88 +603,177 @@ const NewsPage = () => {
       image: require("./NewsPhotos/march/Rhymes.jpg"),
     },
   ];
+  const categories = ["All", ...new Set(newsItems.map(item => item.category))];
+
+  const filteredNews = activeCategory === "All" 
+    ? newsItems 
+    : newsItems.filter(item => item.category === activeCategory);
+
+  const newsByCategory = newsItems.reduce((acc, item) => {
+    if (!acc[item.category]) {
+      acc[item.category] = [];
+    }
+    acc[item.category].push(item);
+    return acc;
+  }, {});
+
+  const scrollToCategory = (category) => {
+    if (category === "All") {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    
+    setTimeout(() => {
+      const element = document.getElementById(`category-${category}`);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
+  };
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setVisibleCategory(entry.target.getAttribute('data-category'));
+          }
+        });
+      },
+      { threshold: 0.5, rootMargin: '-100px 0px -80% 0px' }
+    );
+    Object.keys(categoryRefs.current).forEach(category => {
+      if (categoryRefs.current[category]) {
+        observer.observe(categoryRefs.current[category]);
+      }
+    });
+
+    return () => {
+      Object.keys(categoryRefs.current).forEach(category => {
+        if (categoryRefs.current[category]) {
+          observer.unobserve(categoryRefs.current[category]);
+        }
+      });
+    };
+  }, [activeCategory]);
+
   return (
     <>
       <div className="news-container">
         <div className="news-header">
-          <h2 className="section-title">LATEST NEWS</h2>
+          <h2 className="section-title">NEWS CATAGORIES</h2>
         </div>
 
-        <div
-          className="news-trending "
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <span className="trending-label">
-            <i className="fas fa-star" style={{ color: "#17003a" }}></i>{" "}
-            TRENDING{" "}
-            <i className="fas fa-star" style={{ color: "#17003a" }}></i>
-          </span>
-        </div>
+        
 
-        <div className="row">
-          {newsItems.map((item) => (
-            <div className="col-md-4" key={item.id}>
-              <div className="news-card my-2 mx-1">
-                <div className="card-image-container">
-                  <img
-                    src={item.image}
-                    alt={item.title?.slice(0, 45) || "No Image Description"}
-                    className="card-image"
-                    onError={(e) => {
-                      e.target.src =
-                        "https://via.placeholder.com/600x400?text=Image+Not+Available";
-                    }}
-                  />
-                </div>
-                <div className="card-content-wrapper">
-                  <div className="card-header">
-                    <span className="card-category">
-                      {item.category?.slice(0, 25) || "No Category"}
-                    </span>
-                    <span className="card-date">
-                      {item.date?.slice(0, 49) || "No Date"}
-                    </span>
-                  </div>
-                  <h3 className="card-title">
-                    {!item.title || item.title.trim() === "" ? (
-                      <p className="card-content text-muted">No Title</p>
-                    ) : (
-                      <p className="card-content">
-                        {item.title.slice(0, 50)}
-                        {item.title.length > 50 && "..."}
-                      </p>
-                    )}
-                  </h3>
-                  {!item.content || item.content.trim() === "" ? (
-                    <p className="card-content text-muted">
-                      No Content Available
-                    </p>
-                  ) : (
-                    <p className="card-content">
-                      {item.content.slice(0, 60)}
-                      {item.content.length > 60 && "..."}
-                    </p>
-                  )}
-                  <a
-                    rel="noopener noreferrer"
-                    href={item.newsUrl}
-                    target="_blank"
-                    className="btn btn-sm btn-dark my-2"
-                  >
-                    Read more
-                  </a>
-                </div>
-              </div>
-            </div>
+        <div className="category-tabs mb-4">
+          {categories.map(category => (
+            <button
+              key={category}
+              className={`tab-button ${activeCategory === category ? 'active' : ''}`}
+              onClick={() => {
+                setActiveCategory(category);
+                scrollToCategory(category);
+              }}
+            >
+              {category}
+            </button>
           ))}
         </div>
+
+        <div className={`sticky-category-header ${visibleCategory !== "All" ? 'visible' : ''}`}>
+          <div className="container">
+            <span className="current-category">{visibleCategory}</span>
+          </div>
+        </div>
+        {activeCategory === "All" ? (
+          <div className="news-by-category">
+            {Object.entries(newsByCategory).map(([category, items]) => (
+              <div 
+                key={category} 
+                id={`category-${category}`} 
+                data-category={category} 
+                ref={el => categoryRefs.current[category] = el}
+              >
+                <h3 className="category-heading">{category}</h3>
+                <div className="row">
+                  {items.map((item) => (
+                    <div className="col-md-4 my-2" key={item.id}>
+                      <NewsCard item={item} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="row">
+            {filteredNews.map((item) => (
+              <div className="col-md-4" key={item.id}>
+                <NewsCard item={item} />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
       <div className="margin"></div>
     </>
+  );
+};
+
+const NewsCard = ({ item }) => {
+  return (
+    <div className="news-card my-2 mx-1">
+      <div className="card-image-container">
+        <img
+          src={item.image}
+          alt={item.title?.slice(0, 45) || "No Image Description"}
+          className="card-image"
+          onError={(e) => {
+            e.target.src =
+              "https://via.placeholder.com/600x400?text=Image+Not+Available";
+          }}
+        />
+      </div>
+      <div className="card-content-wrapper">
+        <div className="card-header">
+          <span className="card-category">
+            {item.category?.slice(0, 25) || "No Category"}
+          </span>
+          <span className="card-date">
+            {item.date?.slice(0, 49) || "No Date"}
+          </span>
+        </div>
+        <h3 className="card-title">
+          {!item.title || item.title.trim() === "" ? (
+            <p className="card-content text-muted">No Title</p>
+          ) : (
+            <p className="card-content">
+              {item.title.slice(0, 50)}
+              {item.title.length > 50 && "..."}
+            </p>
+          )}
+        </h3>
+        {!item.content || item.content.trim() === "" ? (
+          <p className="card-content text-muted">
+            No Content Available
+          </p>
+        ) : (
+          <p className="card-content">
+            {item.content.slice(0, 60)}
+            {item.content.length > 60 && "..."}
+          </p>
+        )}
+        <a
+          rel="noopener noreferrer"
+          href={item.newsUrl}
+          target="_blank"
+          className="btn btn-sm btn-dark my-2"
+        >
+          Read more
+        </a>
+      </div>
+    </div>
   );
 };
 
