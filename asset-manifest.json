@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/CGEC/static/css/main.589cf049.css",
-    "main.js": "/CGEC/static/js/main.a6668841.js",
+    "main.js": "/CGEC/static/js/main.013babdc.js",
     "static/js/453.02123d28.chunk.js": "/CGEC/static/js/453.02123d28.chunk.js",
     "static/media/AYAN ROY.jpg": "/CGEC/static/media/AYAN ROY.bcad8e00fe8b46d266c2.jpg",
     "static/media/HDR.jpg": "/CGEC/static/media/HDR.4fdc50b8edf658abfba0.jpg",
@@ -79,11 +79,11 @@
     "static/media/clgLogo.png": "/CGEC/static/media/clgLogo.94a2e46c11315d67611c.png",
     "index.html": "/CGEC/index.html",
     "main.589cf049.css.map": "/CGEC/static/css/main.589cf049.css.map",
-    "main.a6668841.js.map": "/CGEC/static/js/main.a6668841.js.map",
+    "main.013babdc.js.map": "/CGEC/static/js/main.013babdc.js.map",
     "453.02123d28.chunk.js.map": "/CGEC/static/js/453.02123d28.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.589cf049.css",
-    "static/js/main.a6668841.js"
+    "static/js/main.013babdc.js"
   ]
 }
