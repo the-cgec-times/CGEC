@@ -56,7 +56,8 @@
   "devDependencies": {
     "browserslist": "^4.25.4",
     "caniuse-lite": "^1.0.30001739",
-    "eslint": "^9.34.0",
+    "eslint": "^8.57.1",
+    "eslint-config-react-app": "^7.0.1",
     "svgo": "^4.0.0"
   }
 }
