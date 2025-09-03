@@ -52,5 +52,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "browserslist": "^4.25.4",
+    "caniuse-lite": "^1.0.30001739",
+    "eslint": "^9.34.0",
+    "svgo": "^4.0.0"
   }
 }
