@@ -25,10 +25,11 @@
   "proxy": "http://localhost:5000",
  "scripts": {
   "start": "react-scripts start",
-  "build": "NODE_OPTIONS=--openssl-legacy-provider react-scripts build",
+  "build": "npx update-browserslist-db@latest && NODE_OPTIONS=--openssl-legacy-provider react-scripts build",
   "test": "react-scripts test",
   "eject": "react-scripts eject"
-},
+}
+
   "eslintConfig": {
     "extends": [
       "react-app",
