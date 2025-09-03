@@ -28,7 +28,7 @@
   "build": "npx update-browserslist-db@latest && NODE_OPTIONS=--openssl-legacy-provider react-scripts build",
   "test": "react-scripts test",
   "eject": "react-scripts eject"
-}
+},
 
   "eslintConfig": {
     "extends": [
