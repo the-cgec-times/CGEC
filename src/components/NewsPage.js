@@ -5,12 +5,12 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { Navigation, Pagination,Autoplay} from "swiper/modules";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
 
-const news_interval= "jul 2025 to Aug 2025"
+const news_interval = "jul 2025 to Aug 2025";
 
 const importantLinks = [
-  { id: 1,  file: "/news/sem3.pdf" },
+  { id: 1, file: "/news/sem3.pdf" },
   { id: 2, file: "/news/sem3.pdf" },
   { id: 3, file: "/news/sem3.pdf" },
 ];
@@ -657,6 +657,8 @@ const NewsPage = () => {
   };
 
   useEffect(() => {
+    const currentCategoryRefs = categoryRefs.current; // Copy to variable
+    
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -667,59 +669,57 @@ const NewsPage = () => {
       },
       { threshold: 0.5, rootMargin: "-100px 0px -80% 0px" }
     );
-    Object.keys(categoryRefs.current).forEach((category) => {
-      if (categoryRefs.current[category]) {
-        observer.observe(categoryRefs.current[category]);
+    
+    Object.keys(currentCategoryRefs).forEach((category) => {
+      if (currentCategoryRefs[category]) {
+        observer.observe(currentCategoryRefs[category]);
       }
     });
 
     return () => {
-      Object.keys(categoryRefs.current).forEach((category) => {
-        if (categoryRefs.current[category]) {
-          observer.unobserve(categoryRefs.current[category]);
+      Object.keys(currentCategoryRefs).forEach((category) => {
+        if (currentCategoryRefs[category]) {
+          observer.unobserve(currentCategoryRefs[category]);
         }
       });
     };
   }, [activeCategory]);
 
+  
   return (
     <>
-<div className="newspaper-slider-container">
-  <Swiper
-    modules={[Navigation, Pagination, Autoplay]}
-    spaceBetween={20}
-    slidesPerView={1}
-    pagination={{ clickable: true }}
-    autoplay={{ delay: 3000, disableOnInteraction: false }}
-    breakpoints={{
-      640: { slidesPerView: 1 },
-      1024: { slidesPerView: 1 },
-    }}
-  >
-    {importantLinks.map((paper) => (
-      <SwiperSlide key={paper.id}>
-        <div className="download-card">
-          <h3 className="newspaper-download">
-            <span className="download-text">
-              Click here to download <span className="highlight">{news_interval}</span> Newspaper
-            </span>
-            <span className="download-icon">👉</span>
-            <a 
-              href="#" 
-              onClick={(e) => {
-                e.preventDefault();
-                handleDownloadNewspaper(paper.file, news_interval);
-              }} 
-              className="download-link"
-            >
-              Click here
-            </a>
-          </h3>
-        </div>
-      </SwiperSlide>
-    ))}
-  </Swiper>
-</div>
+      <div className="newspaper-slider-container">
+        <Swiper
+          modules={[Navigation, Pagination, Autoplay]}
+          spaceBetween={20}
+          slidesPerView={1}
+          pagination={{ clickable: true }}
+          autoplay={{ delay: 3000, disableOnInteraction: false }}
+          breakpoints={{
+            640: { slidesPerView: 1 },
+            1024: { slidesPerView: 1 },
+          }}
+        >
+          {importantLinks.map((paper) => (
+            <SwiperSlide key={paper.id}>
+              <div className="download-card">
+                <h3 className="newspaper-download">
+                  <span className="download-text">
+                    Click here to download <span className="highlight">{news_interval}</span> Newspaper
+                  </span>
+                  <span className="download-icon">👉</span>
+                  <button
+                    onClick={() => handleDownloadNewspaper(paper.file, news_interval)}
+                    className="download-link"
+                  >
+                    Click here
+                  </button>
+                </h3>
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
 
       <div className="news-container">
         <div className="news-header">
