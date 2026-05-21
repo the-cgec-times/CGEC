@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, useLocation } from 'react-router-dom';
 import LoadingBar from 'react-top-loading-bar';
@@ -8,15 +7,17 @@ import NewsPage from './components/NewsPage';
 import ClubSection from './components/ClubSection'; 
 import EventSection from './components/EventSection'; 
 import TeamPage from './components/TeamPage';
- 
-
 
 function AppWrapper() {
   const [progress, setProgress] = useState(0);
   const location = useLocation();
 
   useEffect(() => {
-   
+    if (window.location.hostname.includes('github.io')) {
+      window.location.replace('https://the-cgec-times.netlify.app/');
+      return;
+    }
+
     setProgress(10);
     
     const timer1 = setTimeout(() => setProgress(60), 300);
@@ -47,12 +48,7 @@ function AppWrapper() {
       <ClubSection />
       <EventSection />
       <TeamPage />
-      <div style={{ 
-         
-        transition: 'opacity 0.3s ease' 
-      }}>
-       
-      </div>
+      <div style={{ transition: 'opacity 0.3s ease' }}></div>
     </>
   );
 }
